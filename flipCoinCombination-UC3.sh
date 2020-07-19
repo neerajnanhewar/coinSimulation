@@ -11,17 +11,17 @@ tailwin=0
 tailwin2=0
 function winPercent()
 {
-	head_head_win_per=$(( ($headwin*100)/$key ))
-	tail_tail_win_per=$(( ($tailwin*100)/$key ))
+	head_head_win_per=`awk "BEGIN {print $(($headwin*100))/$key}"`
+	tail_tail_win_per=`awk "BEGIN {print $(($tailwin*100))/$key}"`
    echo " HH WIN PERCENT " $head_head_win_per
    echo " TT WIN PERCENT " $tail_tail_win_per
- 	head_tail_win_per=$(( ($headtailwin*100)/$key ))
-   tail_head_win_per=$(( ($tailheadwin*100)/$key ))
+ 	head_tail_win_per=`awk "BEGIN {print $(($headtailwin*100))/$key}"`
+   tail_head_win_per=`awk "BEGIN {print $(($tailheadwin*100))/$key}"`
 	echo " HT WIN PERCENT " $head_tail_win_per
 	echo " TH WIN PERCENT " $tail_head_win_per
 }
 
-for (( key=0; key<=5; key++ ))
+for (( key=0; key<=50; key++ ))
 do
 		flip1=$(( RANDOM % 2 ))
 	 	flip2=$(( RANDOM % 2 ))
