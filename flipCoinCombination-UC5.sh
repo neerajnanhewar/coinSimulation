@@ -33,9 +33,6 @@ done
 	tail_win_per=`awk "BEGIN { print $(($tailwin*100)) / $key }"`
    	echo " HEAD WIN PERCENT " $head_win_per
    	echo " TAIL WIN PERCENT " $tail_win_per
-	echo "Total Head Wins " $headwin
-	echo "Total Tail Wins " $tailwin
-	echo "Total Flips" $key
 }
 
 
@@ -165,10 +162,14 @@ done
     echo " THT WIN PERCENT " $tail_head_tail_win_per
 }
 
-winPercent1
-winPercent2
-winPercent3
+function sorting_Combination
+{
+winPercent1 | sort -n -k4
+winPercent2 | sort -n -k4
+winPercent3 | sort -n -k4
+}
 
+sorting_Combination | sort -n -k4
 
 
 
