@@ -1,5 +1,6 @@
 #!/bin/bash 
 
+#declare dictionary
 declare -A dictCoinSinglet
 declare -A dictCoinDublet
 declare -A dictCoinTriplet
@@ -18,26 +19,23 @@ do
 		if [ $flip -eq $heads ]
 		then
 				val="HEAD"
-			#	echo "HEAD WINS"
 				((headwin++))
 		elif [ $flip -eq $tails ]
 		then
 				val="TAIL"
-			#	echo "TAIL WINS"
 				((tailwin++))
 		else
 				exit
 		fi
 	 	dictCoinSinglet["$key"]=$val
-done | 
-	head_win_per=$(( ($headwin*100)/$key ))
-	tail_win_per=$(( ($tailwin*100)/$key ))
+done 
+	head_win_per=`awk "BEGIN { print $(($headwin*100)) / $key }"`
+	tail_win_per=`awk "BEGIN { print $(($tailwin*100)) / $key }"`
    	echo " HEAD WIN PERCENT " $head_win_per
    	echo " TAIL WIN PERCENT " $tail_win_per
 	echo "Total Head Wins " $headwin
 	echo "Total Tail Wins " $tailwin
 	echo "Total Flips" $key
-#	echo "[" ${dictCoinSinglet[@]} "]"
 }
 
 
@@ -52,26 +50,22 @@ do
 		then
 				val="H"
 				val2="H"
-			#	echo "HEAD HEAD WINS"
 				((headwin++))
 		elif [ $flip1 -eq $tails ] &&  [ $flip2 -eq $tails ]
 
 		then
 				val="T"
 				val2="T"
-				echo "TAIL TAIL WINS"
 				((tailwin++))
 		elif [ $flip1 -eq $heads ] &&  [ $flip2 -eq $tails ]
       then
             val="H"
             val2="T"
-          #  echo "HEAD TAIL WINS"
             ((headtailwin++))
 		elif [ $flip1 -eq $tails ] &&  [ $flip2 -eq $heads ]
       then
             val="T"
             val2="H"
-         #   echo "TAIL HEAD WINS"
             ((tailheadwin++))
 		else
 				exit
@@ -87,10 +81,6 @@ done
     tail_head_win_per=`awk "BEGIN {print $(($tailheadwin*100))/$key}"`
 	echo " HT WIN PERCENT " $head_tail_win_per
 	echo " TH WIN PERCENT " $tail_head_win_per
-	echo "Total Head Wins " $headwin
-	echo "Total Tail Wins " $tailwin
-	echo "Total Flips" $key
-#	echo "[" ${dictCoinDoublet[@]} "]"
 }
 
 function winPercent3()
@@ -106,39 +96,30 @@ do
 				val="H"
 				val2="H"
 				val3="H"
-		#		echo "HEAD HEAD HEAD WINS"
 				((headwin++))
 		elif [ $flip1 -eq $tails ] &&  [ $flip2 -eq $tails ] && [ $flip3 -eq $tails ] 
-
 		then
 				val="T"
 				val2="T"
 				val3="T"
-		#		echo "TAIL TAIL TAIL WINS"
 				((tailwin++))
 		elif [ $flip1 -eq $heads ] &&  [ $flip2 -eq $tails ] && [ $flip3 -eq $tails ] 
       then
             val="H"
             val2="T"
 			val3="T"
-        #    echo "HEAD TAIL TAIL WINS"
             ((headtailtail++))
 		elif [ $flip1 -eq $tails ] &&  [ $flip2 -eq $heads ] && [ $flip3 -eq $heads ] 
       then
             val="T"
             val2="H"
 				val3="H"
-        #    echo "TAIL HEAD HEAD WINS"
             ((tailheadhead++))
-		
-
-
 			elif [ $flip1 -eq $heads ] && [ $flip2 -eq $heads ] && [ $flip3 -eq $tails ]
       then
             val="H"
             val2="H"
             val3="T"
-            #echo "HEAD HEAD TAIL WINS"
             ((headheadtail++))
       elif [ $flip1 -eq $tails ] &&  [ $flip2 -eq $tails ] && [ $flip3 -eq $heads ]
 
@@ -146,21 +127,18 @@ do
             val="T"
             val2="T"
             val3="H"
-           # echo "TAIL TAIL HEAD WINS"
             ((tailtailhead++))
       elif [ $flip1 -eq $heads ] &&  [ $flip2 -eq $tails ] && [ $flip3 -eq $heads ]
       then
             val="H"
             val2="T"
             val3="H"
-            #echo "HEAD TAIL HEAD WINS"
             ((headtailhead++))
       elif [ $flip1 -eq $tails ] &&  [ $flip2 -eq $heads ] && [ $flip3 -eq $tails ]
       then
             val="T"
             val2="H"
             val3="T"
-           # echo "TAIL HEAD TAIL WINS"
             ((tailheadtail++))
 
 else
@@ -185,11 +163,8 @@ done
     tail_head_tail_win_per=`awk "BEGIN { print $(($tailheadtail*100 )) / $key }"`
     echo " HTH WIN PERCENT " $head_tail_head_win_per
     echo " THT WIN PERCENT " $tail_head_tail_win_per
-	echo "Total Head Wins " $headwin
-	echo "Total Tail Wins " $tailwin
-	echo "Total Flips" $key
-#	echo "[" ${dictCoinTriplet[@]} "]"
 }
+
 winPercent1
 winPercent2
 winPercent3
